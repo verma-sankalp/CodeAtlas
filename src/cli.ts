@@ -6,6 +6,7 @@ import { DependencyGraph } from './graph/graph.js';
 import { Locator } from './locator/locator.js';
 import { ImpactAnalyzer } from './impact/impact.js';
 import { DeadCodeAnalyzer } from './impact/deadcode.js';
+import { HotspotAnalyzer } from './impact/hotspots.js';
 import { KnowledgeManager } from './knowledge/knowledge.js';
 import { DocsGenerator } from './knowledge/docs.js';
 
@@ -18,6 +19,7 @@ Usage:
   codeatlas locate <query> [dir]     Find files or code entities matching query
   codeatlas impact <file> [dir]      Analyze impact of changing a specific file
   codeatlas deadcode [dir]           Detect unreferenced orphan files & technical debt
+  codeatlas hotspots [dir]           Analyze git commit history to find most active hotspots
   codeatlas docs [dir]               Generate automated Markdown documentation site in /docs
   codeatlas explain [dir]            Print project summary and architecture overview
   codeatlas help                     Show this help message
@@ -129,6 +131,22 @@ async function main() {
         console.log(`  ⚠️ Found ${report.orphanFiles.length} potentially unreferenced file(s):`);
         for (const file of report.orphanFiles) {
           console.log(`    - ${file}`);
+        }
+      }
+      break;
+    }
+    case 'hotspots': {
+      const scanDir = targetDir;
+      console.log(`🔥 Analyzing Git commit history for change hotspots in ${scanDir}...`);
+      const hotspotAnalyzer = new HotspotAnalyzer(scanDir);
+      const hotspots = hotspotAnalyzer.analyze(10);
+
+      console.log(`\n🔥 Git Hotspots (Most Frequently Modified Files):`);
+      if (hotspots.length === 0) {
+        console.log(`  No git history or commits found.`);
+      } else {
+        for (const h of hotspots) {
+          console.log(`  - ${h.file} (${h.commits} commits)`);
         }
       }
       break;
