@@ -94,7 +94,8 @@ codeatlas explain
 
 ## 📂 Project Structure
 
-\`\`\`
+\`\`\` 
+
 CodeAtlas/
 ├── SKILL.md              # AI Agent skill definition
 ├── README.md             # Documentation
@@ -115,6 +116,7 @@ CodeAtlas/
 ├── references/           # Reference materials & guides
 ├── examples/             # Example output & projects
 └── tests/                # Test suite
+
 \`\`\`
 
 ---
