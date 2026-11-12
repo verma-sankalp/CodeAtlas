@@ -92,15 +92,15 @@ codeatlas explain
 
 ### Detect Dead Code & Orphans
 Scan for unreferenced files and technical debt:
-\`\`\`bash
+```bash
 codeatlas deadcode
-\`\`\`
+```
 
 ### Generate Automated Documentation Site
 Create a fully formatted Markdown wiki site in `/docs`:
-\`\`\`bash
+```bash
 codeatlas docs
-\`\`\`
+```
 
 ---
 
