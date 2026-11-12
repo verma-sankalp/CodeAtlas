@@ -5,7 +5,9 @@ import { Parser, ParseResult } from './parsers/parser.js';
 import { DependencyGraph } from './graph/graph.js';
 import { Locator } from './locator/locator.js';
 import { ImpactAnalyzer } from './impact/impact.js';
+import { DeadCodeAnalyzer } from './impact/deadcode.js';
 import { KnowledgeManager } from './knowledge/knowledge.js';
+import { DocsGenerator } from './knowledge/docs.js';
 
 function printHelp() {
   console.log(`
@@ -15,6 +17,8 @@ Usage:
   codeatlas scan [dir]               Scan repository and generate .codemap/ knowledge
   codeatlas locate <query> [dir]     Find files or code entities matching query
   codeatlas impact <file> [dir]      Analyze impact of changing a specific file
+  codeatlas deadcode [dir]           Detect unreferenced orphan files & technical debt
+  codeatlas docs [dir]               Generate automated Markdown documentation site in /docs
   codeatlas explain [dir]            Print project summary and architecture overview
   codeatlas help                     Show this help message
 `);
@@ -105,6 +109,38 @@ async function main() {
       }
       break;
     }
+    case 'deadcode': {
+      const scanDir = targetDir;
+      console.log(`🕵️ Scanning for orphan files and dead code in ${scanDir}...`);
+      const scanner = new Scanner({ rootDir: scanDir });
+      const files = scanner.scan();
+      const parser = new Parser();
+      const parseResults = files.map(f => parser.parseFile(f));
+      const graph = new DependencyGraph();
+      graph.build(parseResults);
+
+      const deadCodeAnalyzer = new DeadCodeAnalyzer(graph, parseResults, files);
+      const report = deadCodeAnalyzer.analyze();
+
+      console.log(`\n🔍 Dead Code & Orphan File Report:`);
+      if (report.orphanFiles.length === 0) {
+        console.log(`  ✅ No orphan files detected! Every file is referenced.`);
+      } else {
+        console.log(`  ⚠️ Found ${report.orphanFiles.length} potentially unreferenced file(s):`);
+        for (const file of report.orphanFiles) {
+          console.log(`    - ${file}`);
+        }
+      }
+      break;
+    }
+    case 'docs': {
+      const scanDir = targetDir;
+      console.log(`📚 Generating automated Markdown documentation site in /docs...`);
+      const dg = new DocsGenerator(scanDir);
+      dg.generateDocs();
+      console.log(`✅ Documentation site successfully generated in /docs!`);
+      break;
+    }
     case 'explain': {
       const scanDir = targetDir;
       const km = new KnowledgeManager(scanDir);
@@ -124,9 +160,6 @@ async function main() {
       const summaryPath = path.join(scanDir, '.codemap', 'project-summary.md');
       const archPath = path.join(scanDir, '.codemap', 'architecture.md');
 
-      if (path.resolve(scanDir) !== path.resolve(targetDir)) {
-        // handled
-      }
       const fs = await import('fs');
       if (fs.existsSync(summaryPath)) {
         console.log(fs.readFileSync(summaryPath, 'utf8'));

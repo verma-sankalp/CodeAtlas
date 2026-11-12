@@ -4,4 +4,6 @@ export { Parser, ParseResult, CodeEntity } from './parsers/parser.js';
 export { DependencyGraph, DependencyNode } from './graph/graph.js';
 export { Locator, LocationResult } from './locator/locator.js';
 export { ImpactAnalyzer, ImpactReport } from './impact/impact.js';
+export { DeadCodeAnalyzer, DeadCodeReport } from './impact/deadcode.js';
 export { KnowledgeManager } from './knowledge/knowledge.js';
+export { DocsGenerator } from './knowledge/docs.js';
