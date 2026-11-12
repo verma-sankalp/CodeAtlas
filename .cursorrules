@@ -1,0 +1,7 @@
+# CodeAtlas Cursor / AI IDE Instructions
+
+When working in this codebase or any project with CodeAtlas installed:
+1. **Understand before changing:** Always inspect project structure and run `codeatlas scan` or check `.codemap/` before making modifications.
+2. **Locate code:** Use `codeatlas locate "<query>"` to find exact file paths and line numbers instead of manual searching.
+3. **Analyze impact:** Run `codeatlas impact <file>` before modifying shared components or core logic.
+4. **Safety first:** Never modify files without explicit user permission.
