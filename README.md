@@ -38,17 +38,17 @@ When jumping into a new or sprawling repository, developers and AI agents often 
 ## 📦 Installation
 
 ### 1. From GitHub / Local Clone
-\`\`\`bash
+```bash
 git clone https://github.com/verma-sankalp/CodeAtlas.git
 cd CodeAtlas
 npm install
 npm run build
-\`\`\`
+```
 
 ### 2. Global CLI Installation (Optional)
-\`\`\`bash
+```bash
 npm link
-\`\`\`
+```
 
 ---
 
@@ -67,35 +67,34 @@ CodeAtlas is built as a **universal agent skill** compatible across all major AI
 
 ### Scan a Repository
 Scan your project to generate the `.codemap/` knowledge base:
-\`\`\`bash
+```bash
 codeatlas scan [path]
-\`\`\`
+```
 
 ### Locate Code
 Find functions, components, or API routes using natural language:
-\`\`\`bash
+```bash
 codeatlas locate "login"
 codeatlas locate "navbar"
-\`\`\`
+```
 
 ### Analyze Change Impact
 Check dependents and risks before modifying a file:
-\`\`\`bash
+```bash
 codeatlas impact src/components/Header.tsx
-\`\`\`
+```
 
 ### Explain Project Architecture
 Print project summary and architecture overview:
-\`\`\`bash
+```bash
 codeatlas explain
-\`\`\`
+```
 
 ---
 
 ## 📂 Project Structure
 
-\`\`\` 
-
+``` 
 CodeAtlas/
 ├── SKILL.md              # AI Agent skill definition
 ├── README.md             # Documentation
@@ -116,8 +115,7 @@ CodeAtlas/
 ├── references/           # Reference materials & guides
 ├── examples/             # Example output & projects
 └── tests/                # Test suite
-
-\`\`\`
+```
 
 ---
 
